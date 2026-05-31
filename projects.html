@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects | Theo Ross</title>
+  <meta name="description" content="Geospatial projects by Theo Ross including remote sensing, GIS analysis, cartography, and data science work.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">Theo Ross</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="resume.html">Resume</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="experiences.html">Experiences</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <div class="page-hero">
+      <h1>Projects</h1>
+      <p>Maps, analyses, and research</p>
+    </div>
+
+    <section class="section">
+      <div class="section-inner">
+        <div class="projects-list">
+
+          <!-- Project 1 -->
+          <div class="project-item reveal">
+            <div class="project-text">
+              <span class="project-num">01 — NASA DEVELOP</span>
+              <h2>Tree Canopy Cover in Los Angeles</h2>
+              <p>
+                As part of my team's project at NASA DEVELOP, I focused on creating a supervised
+                classification model to calculate tree canopy cover using remote sensing. We used
+                0.5 m aerial imagery across four years to detect change in tree canopy cover for
+                urban areas in Los Angeles County. We partnered with the City of Los Angeles,
+                Office of City Forest Management and City Plants — the inset map highlights a
+                2016 tree planting initiative along Vermont Avenue.
+              </p>
+              <div class="project-skills">
+                <span class="project-skill">Google Earth Engine</span>
+                <span class="project-skill">ArcGIS Pro</span>
+                <span class="project-skill">Remote Sensing</span>
+              </div>
+              <div class="project-links">
+                <a href="assets/develop_final_report.pdf" class="btn btn-outline" target="_blank">Final Report</a>
+                <a href="assets/develop_presentation.pdf" class="btn btn-outline" target="_blank">Presentation</a>
+                <a href="assets/develop_poster.pdf" class="btn btn-outline" target="_blank">Poster</a>
+              </div>
+            </div>
+            <div class="project-media">
+              <img
+                src="assets\images\tree_canopy_cover_change_2016-2022.avif"
+                alt="Tree Canopy Cover classification map of Los Angeles"
+              >
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="project-item reverse reveal">
+            <div class="project-text">
+              <span class="project-num">02 — TreePeople</span>
+              <h2>Urban Forest Management Plans</h2>
+              <p>
+                During my time at TreePeople, I had the opportunity to create Urban Forest
+                Management Plans for the
+                <a href="https://paramountenvironment.org/about/urban-forest-management-plan/" target="_blank" rel="noopener">City of Paramount</a>,
+                San Fernando, and Huntington Park in Southern California. As the principal
+                mapmaker and data analyst, I played a pivotal role in shaping these plans,
+                meticulously crafting all the maps and charts that adorned the final reports.
+              </p>
+              <div class="project-skills">
+                <span class="project-skill">ArcGIS Pro</span>
+                <span class="project-skill">Adobe Illustrator</span>
+                <span class="project-skill">Canva</span>
+              </div>
+              <div class="project-links">
+                <a href="assets/treepeople_paramount_ufmp.pdf" class="btn btn-outline" target="_blank">Paramount UFMP</a>
+              </div>
+            </div>
+            <div class="project-media">
+              <img
+                src="assets/images/paramount_ufmp.png"
+                alt="Urban Forest Management Plan map"
+              >
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="project-item reveal">
+            <div class="project-text">
+              <span class="project-num">03 — University of Oregon</span>
+              <h2>Dynamic Ice-Water Boundaries of the Greenland Ice Sheet</h2>
+              <p>
+                I produced a visually engaging cartographic representation of my research
+                findings that effectively illustrates the dynamic spatial and temporal changes
+                in the interaction between the Greenland Ice Sheet and water. Published in the 
+                <a href="https://www.cambridge.org/core/journals/journal-of-glaciology/article/retreat-of-the-greenland-ice-sheet-leads-to-divergent-patterns-of-reconfiguration-at-its-freshwater-and-tidewater-margins/D8080150A4D8C6BD8C44BBA26347B661" target="_blank" rel="noopener">Journal of Glaciology</a> 
+                (Cambridge University Press), this research project utilized over 20 years of Landsat 
+                imagery to train a custom land-type classification model, which I designed using machine learning in Python and JavaScript.
+              </p>
+              <div class="project-skills">
+                <span class="project-skill">QGIS</span>
+                <span class="project-skill">Python</span>
+                <span class="project-skill">JavaScript</span>
+                <span class="project-skill">Adobe Illustrator</span>
+              </div>
+              <div class="project-links">
+                <a href="assets/greenland_ice_water_boundaries.pdf" class="btn btn-outline" target="_blank">View Map</a>
+                <a href="https://www.cambridge.org/core/journals/journal-of-glaciology/article/retreat-of-the-greenland-ice-sheet-leads-to-divergent-patterns-of-reconfiguration-at-its-freshwater-and-tidewater-margins/D8080150A4D8C6BD8C44BBA26347B661" class="btn btn-outline" target="_blank">Journal Article ↗</a>
+              </div>
+            </div>
+            <div class="project-media">
+              <a href="assets/greenland_ice_water_boundaries.pdf" target="_blank">
+                <img
+                  src="assets/images/greenland_ice-water_boundaries_map.png"
+                  alt="Greenland Ice Sheet ice-water boundary map"
+                >
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 4 -->
+          <div class="project-item reverse reveal">
+            <div class="project-text">
+              <span class="project-num">04 — University of Oregon</span>
+              <h2>Stream Discharge Prediction</h2>
+              <p>
+                A team coding project using Python and GitHub to analyze discharge levels of
+                the Nisqually River in Washington. We set out to understand what the most
+                influential climate factors are for determining discharge levels in the study
+                region, applying machine learning models to USGS gage data.
+              </p>
+              <div class="project-skills">
+                <span class="project-skill">Python</span>
+                <span class="project-skill">Machine Learning</span>
+                <span class="project-skill">USGS Data</span>
+                <span class="project-skill">Climate Analysis</span>
+              </div>
+              <div class="project-links">
+                <a href="assets/stream_discharge_report.pdf" class="btn btn-outline" target="_blank">Project Report</a>
+                <a href="https://github.com/ianvd/gage-guesser" class="btn btn-outline" target="_blank">GitHub Repo</a>
+              </div>
+            </div>
+            <div class="project-media">
+              <img
+                src="assets/images/MtRainier.jpeg"
+                alt="Mount Rainier and the Nisqually River watershed"
+              >
+            </div>
+          </div>
+
+          <!-- Project 5 -->
+          <div class="project-item reveal">
+            <div class="project-text">
+              <span class="project-num">05 — University of Oregon</span>
+              <h2>Lighthouses of Great Britain</h2>
+              <p>
+                An interactive web map built with Mapbox GL JS to display all locations of
+                lighthouses in Great Britain, including relevant information and statistics
+                along with an image of each lighthouse. The project involved publishing
+                a web map on a live server.
+              </p>
+              <div class="project-skills">
+                <span class="project-skill">HTML &amp; CSS</span>
+                <span class="project-skill">JavaScript</span>
+                <span class="project-skill">Mapbox GL JS</span>
+                <span class="project-skill">Web Mapping</span>
+              </div>
+              <div class="project-links">
+                <a href="assets/lighthouses_of_great_britain_report.pdf" class="btn btn-outline" target="_blank">Project Overview</a>
+              </div>
+            </div>
+            <div class="project-media">
+              <img
+                src="assets/images/lighthouses_of_great_britain.avif"
+                alt="Lighthouses of Great Britain interactive web map"
+              >
+            </div>
+          </div>
+
+          <!-- Project 6 -->
+          <div class="project-item reverse reveal">
+            <div class="project-text">
+              <span class="project-num">06 — University of Oregon</span>
+              <h2>Chemical Uncertainty: Regulating PFAS in Our Nation's Waterbodies</h2>
+              <p>
+                A research paper that analyzes the current regulating policies around
+                per- and polyfluoroalkyl substances (PFAS) and suggests strengthening
+                regulating measures of the chemicals at the federal level.
+              </p>
+              <div class="project-skills">
+                <span class="project-skill">Public Policy</span>
+                <span class="project-skill">Research</span>
+                <span class="project-skill">Science Writing</span>
+              </div>
+              <div class="project-links">
+                <!-- No local PDF available for this one; keeping original link -->
+                <a href="assets/PFAS_report.pdf" class="btn btn-outline" target="_blank">Read Paper</a>
+              </div>
+            </div>
+            <div class="project-media">
+              <img
+                src="assets/images/pfas.avif"
+                alt="PFAS chemical contamination in waterbodies"
+              >
+            </div>
+          </div>
+
+        </div><!-- /projects-list -->
+      </div>
+    </section>
+
+  </div><!-- /page-wrapper -->
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-brand">Theo Ross</span>
+      <div class="footer-links">
+        <a href="mailto:theoross253@gmail.com">✉ theoross253@gmail.com</a>
+        <a href="https://www.linkedin.com/in/theo-ross-8b4376230" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="assets/TheoRoss_Resume.pdf" target="_blank">↓ Resume PDF</a>
+      </div>
+      <span class="footer-copy">© Theo Ross</span>
+    </div>
+  </footer>
+
+  <button id="back-top" aria-label="Back to top">↑</button>
+  <script src="js/main.js"></script>
+</body>
+</html>
