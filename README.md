@@ -11,9 +11,9 @@ Built with vanilla HTML, CSS, and JavaScript. Features include:
 
 ## Live Site
 
-[theoross.github.io/theo-ross-portfolio](https://theoross.github.io/theo-ross-portfolio)
+[theosross.github.io/theo-ross-portfolio](https://theosross.github.io/theo-ross-portfolio/)
 
 ## Built With
 
-- HTML / CSS / JavaScript
+- HTML / CSS3 / JavaScript
 - Hosted on GitHub Pages
