@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://theosross.github.io/theo-ross-portfolio/sitemap.xml
