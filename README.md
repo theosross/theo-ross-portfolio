@@ -4,7 +4,7 @@ Personal portfolio website showcasing my work and experience as a Geospatial Sci
 
 ## About
 
-Built with vanilla HTML, CSS, and JavaScript. Features include:
+Built with HTML, CSS, and JavaScript. Features include:
 - Project showcases for GIS and remote sensing work
 - Resume, experiences, and contact pages
 
