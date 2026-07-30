@@ -729,7 +729,7 @@ body::before {
 
 /* ── Contact ───────────────────────────────────── */
 .contact-centered {
-  max-width: 560px;
+  max-width: 640px;
   margin: 0 auto;
   text-align: center;
 }
@@ -760,8 +760,8 @@ body::before {
   padding: 32px 40px;
   text-align: center;
   flex: 1;
-  min-width: 200px;
-  max-width: 240px;
+  min-width: 240px;
+  max-width: 280px;
   box-shadow: var(--shadow);
   transition: border-color .25s, transform .25s, box-shadow .25s;
 }
@@ -788,7 +788,7 @@ body::before {
   font-size: .9rem;
   color: var(--text);
   font-weight: 300;
-  word-break: break-all;
+  white-space: nowrap;
 }
 
 /* ── Resume download bar ───────────────────────── */
