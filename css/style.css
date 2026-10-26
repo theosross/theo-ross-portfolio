@@ -915,6 +915,17 @@ footer {
   }
   .nav-toggle { display: flex; }
 
+  /* stacked hero is taller than the screen, so pin the topo like the grid */
+  .hero-topo {
+    position: fixed;
+    inset: auto;
+    top: 0; left: 0;
+    height: 100vh;
+    height: 100lvh;
+    z-index: -1;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, black 60%, transparent 100%);
+            mask-image: radial-gradient(ellipse at center, black 0%, black 60%, transparent 100%);
+  }
   .hero-inner { grid-template-columns: 1fr; text-align: center; }
   .hero-image-wrap { order: -1; }
   .hero-photo { width: 220px; height: 220px; }

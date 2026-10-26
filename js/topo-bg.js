@@ -4,7 +4,6 @@
 (function () {
   const canvas = document.getElementById('hero-topo');
   if (!canvas) return;
-  const hero = canvas.closest('.hero');
   const ctx = canvas.getContext('2d');
 
   const LINE_RGB = '74, 124, 111';  // --accent
@@ -163,8 +162,8 @@
     const { minor, index } = buildPaths();
 
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = `rgba(${LINE_RGB}, 0.075)`;
-    ctx.lineWidth = 0.7;
+    ctx.strokeStyle = `rgba(${LINE_RGB}, 0.1)`;
+    ctx.lineWidth = 0.75;
     ctx.stroke(minor);
     ctx.strokeStyle = `rgba(${LINE_RGB}, 0.17)`;
     ctx.lineWidth = 1.1;
@@ -192,10 +191,15 @@
   }
 
   function resize() {
-    const rect = hero.getBoundingClientRect();
-    width = Math.max(1, rect.width);
-    height = Math.max(1, rect.height);
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // the canvas fills the hero on desktop but is pinned to the viewport on mobile
+    const rect = canvas.getBoundingClientRect();
+    const w = Math.max(1, rect.width), h = Math.max(1, rect.height);
+    const d = Math.min(window.devicePixelRatio || 1, 2);
+    // mobile browser bars fire resize without changing our size; skip the reset
+    if (w === width && h === height && d === dpr) return false;
+    width = w;
+    height = h;
+    dpr = d;
     canvas.width = Math.ceil(width * dpr);
     canvas.height = Math.ceil(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -206,6 +210,7 @@
     warpRows = Math.ceil(rows / WARP_STEP) + 1;
     warpX = new Float32Array(warpCols * warpRows);
     warpY = new Float32Array(warpCols * warpRows);
+    return true;
   }
 
   document.addEventListener('visibilitychange', () => {
@@ -214,8 +219,7 @@
   });
 
   window.addEventListener('resize', () => {
-    resize();
-    if (reduceMotion) drawStatic();
+    if (resize() && reduceMotion) drawStatic();
   });
 
   resize();
