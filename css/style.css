@@ -936,5 +936,15 @@ footer {
 @media (max-width: 540px) {
   .section { padding: 56px 16px; }
   .page-hero { padding: 60px 16px 48px; }
+  footer { padding: 40px 16px; }
   .footer-inner { flex-direction: column; text-align: center; }
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 24px;
+  }
+  .footer-links a:first-child {
+    flex-basis: 100%;
+    justify-content: center;
+  }
 }
