@@ -10,7 +10,7 @@
   const LINE_RGB = '74, 124, 111';  // --accent
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const CELL = 14;            // sample spacing in CSS px
+  const CELL = 8;            // sample spacing in CSS px (fine enough that small islands don't alias)
   const LEVEL_STEP = 0.11;    // spacing between contour lines
   const INDEX_EVERY = 5;      // every Nth line is a heavier index contour
 
@@ -51,18 +51,38 @@
   }
 
   /* ── Terrain ─────────────────────────────────────────────── */
-  function baseHeight(x, y, time) {
-    const s = 0.0032;
-    // gentle domain warp so the terrain slowly reshapes rather than scrolls
-    const wx = noise(x * s * 0.7 + time * 0.02, y * s * 0.7) * 1.4;
-    const wy = noise(x * s * 0.7 - 11.3, y * s * 0.7 + time * 0.017) * 1.4;
-    return fbm(x * s + wx + time * 0.008, y * s + wy) * 2.2;
-  }
+  const SCALE = 0.0032;
+  const WARP_STEP = 4;        // warp is very low frequency, so sample it coarsely and interpolate
+  let warpCols = 0, warpRows = 0;
+  let warpX = new Float32Array(0), warpY = new Float32Array(0);
 
   function computeField(time) {
+    const s = SCALE, ws = s * 0.7;
+    // gentle domain warp so the terrain slowly reshapes rather than scrolls
+    for (let j = 0; j < warpRows; j++) {
+      const y = j * WARP_STEP * CELL;
+      for (let i = 0; i < warpCols; i++) {
+        const x = i * WARP_STEP * CELL, k = j * warpCols + i;
+        warpX[k] = noise(x * ws + time * 0.02, y * ws) * 1.4;
+        warpY[k] = noise(x * ws - 11.3, y * ws + time * 0.017) * 1.4;
+      }
+    }
+
+    const drift = time * 0.008;
     for (let j = 0; j < rows; j++) {
       const y = j * CELL, off = j * cols;
-      for (let i = 0; i < cols; i++) field[off + i] = baseHeight(i * CELL, y, time);
+      const wj = Math.floor(j / WARP_STEP), fy = (j % WARP_STEP) / WARP_STEP;
+      const r0 = wj * warpCols, r1 = r0 + warpCols;
+      for (let i = 0; i < cols; i++) {
+        const wi = Math.floor(i / WARP_STEP), fx = (i % WARP_STEP) / WARP_STEP;
+        const a = r0 + wi, b = r1 + wi;
+        const wx0 = warpX[a] + (warpX[a + 1] - warpX[a]) * fx;
+        const wx1 = warpX[b] + (warpX[b + 1] - warpX[b]) * fx;
+        const wy0 = warpY[a] + (warpY[a + 1] - warpY[a]) * fx;
+        const wy1 = warpY[b] + (warpY[b + 1] - warpY[b]) * fx;
+        const wx = wx0 + (wx1 - wx0) * fy, wy = wy0 + (wy1 - wy0) * fy;
+        field[off + i] = fbm(i * CELL * s + wx + drift, y * s + wy) * 2.2;
+      }
     }
   }
 
@@ -104,7 +124,16 @@
           const ry = lerp(y0, y1, tr, br, level);
           const bx = lerp(x0, x1, bl, br, level);
           const ly = lerp(y0, y1, tl, bl, level);
-          const saddleHigh = (tl + tr + br + bl) / 4 > level;
+          // asymptotic decider: compare against the bilinear saddle value, which
+          // changes smoothly, rather than the corner average, which flickers
+          let saddleHigh = false;
+          if (c === 5 || c === 10) {
+            const den = tl + br - tr - bl;
+            const saddle = Math.abs(den) < 1e-6
+              ? (tl + tr + br + bl) / 4
+              : (tl * br - tr * bl) / den;
+            saddleHigh = saddle > level;
+          }
 
           switch (c) {
             case 1: case 14: seg(path, x0, ly, bx, y1); break;
@@ -173,6 +202,10 @@
     cols = Math.ceil(width / CELL) + 2;
     rows = Math.ceil(height / CELL) + 2;
     field = new Float32Array(cols * rows);
+    warpCols = Math.ceil(cols / WARP_STEP) + 1;
+    warpRows = Math.ceil(rows / WARP_STEP) + 1;
+    warpX = new Float32Array(warpCols * warpRows);
+    warpY = new Float32Array(warpCols * warpRows);
   }
 
   document.addEventListener('visibilitychange', () => {
