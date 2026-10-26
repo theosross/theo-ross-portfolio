@@ -908,7 +908,8 @@ footer {
   }
   .nav-links.open { display: flex; }
   .nav-links a {
-    padding: 12px 24px;
+    display: block;
+    padding: 10px 24px;
     border-radius: 0;
     font-size: .875rem;
   }
