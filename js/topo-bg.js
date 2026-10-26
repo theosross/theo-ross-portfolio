@@ -1,8 +1,6 @@
 /* ── Interactive topographic contour background ──────────────
    Draws elevation contours over the hero with marching squares.
-   The terrain is slow-drifting fractal noise. The cursor gently
-   lifts a broad rise that trails a soft, continuous wake behind it,
-   and warms the contour lines nearby. */
+   The terrain is slow-drifting fractal noise. */
 (function () {
   const canvas = document.getElementById('hero-topo');
   if (!canvas) return;
@@ -10,7 +8,6 @@
   const ctx = canvas.getContext('2d');
 
   const LINE_RGB = '74, 124, 111';  // --accent
-  const WARM_RGB = '196, 114, 74';  // --accent-warm
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const CELL = 14;            // sample spacing in CSS px
@@ -19,12 +16,6 @@
 
   let dpr = 1, width = 0, height = 0, cols = 0, rows = 0;
   let field = new Float32Array(0);
-
-  const pointer = { x: 0, y: 0, inside: false };
-  const smooth = { x: 0, y: 0 };   // where the rise sits
-  const wake = { x: 0, y: 0 };     // lags further behind to stretch a ridge
-  let presence = 0;                // 0..1, eases in/out as cursor enters/leaves
-  let lastFrame = null;
 
   let running = true;
   let rafId = null;
@@ -68,25 +59,10 @@
     return fbm(x * s + wx + time * 0.008, y * s + wy) * 2.2;
   }
 
-  function bump(x, y, cx, cy, sig) {
-    const dx = x - cx, dy = y - cy;
-    return Math.exp(-(dx * dx + dy * dy) / (2 * sig * sig));
-  }
-
-  function heightAt(x, y, time) {
-    let h = baseHeight(x, y, time);
-    if (presence > 0.001) {
-      const reach = Math.min(width, height);
-      h += presence * (0.2 * bump(x, y, smooth.x, smooth.y, reach * 0.2) +
-                       0.1 * bump(x, y, wake.x, wake.y, reach * 0.26));
-    }
-    return h;
-  }
-
   function computeField(time) {
     for (let j = 0; j < rows; j++) {
       const y = j * CELL, off = j * cols;
-      for (let i = 0; i < cols; i++) field[off + i] = heightAt(i * CELL, y, time);
+      for (let i = 0; i < cols; i++) field[off + i] = baseHeight(i * CELL, y, time);
     }
   }
 
@@ -164,37 +140,12 @@
     ctx.strokeStyle = `rgba(${LINE_RGB}, 0.17)`;
     ctx.lineWidth = 1.1;
     ctx.stroke(index);
-
-    // Warm "lamp" around the cursor: same contours, re-stroked with a fading tint
-    if (presence > 0.01) {
-      const r = Math.min(width, height) * 0.32;
-      const g = ctx.createRadialGradient(smooth.x, smooth.y, 0, smooth.x, smooth.y, r);
-      g.addColorStop(0, `rgba(${WARM_RGB}, ${0.18 * presence})`);
-      g.addColorStop(0.5, `rgba(${WARM_RGB}, ${0.06 * presence})`);
-      g.addColorStop(1, `rgba(${WARM_RGB}, 0)`);
-      ctx.strokeStyle = g;
-      ctx.lineWidth = 0.8;
-      ctx.stroke(minor);
-      ctx.lineWidth = 1.2;
-      ctx.stroke(index);
-    }
   }
 
   /* ── Loop ────────────────────────────────────────────────── */
   function frame(nowMs) {
     if (!running) return;
     const time = nowMs * 0.001;
-    // frame-rate independent easing so it feels the same at 60Hz and 144Hz
-    const dt = lastFrame === null ? 1 / 60 : Math.min(0.1, time - lastFrame);
-    lastFrame = time;
-    const ease = (rate) => 1 - Math.exp(-rate * dt);
-
-    smooth.x += (pointer.x - smooth.x) * ease(2.2);
-    smooth.y += (pointer.y - smooth.y) * ease(2.2);
-    wake.x += (smooth.x - wake.x) * ease(1.1);
-    wake.y += (smooth.y - wake.y) * ease(1.1);
-    presence += ((pointer.inside ? 1 : 0) - presence) * ease(1.5);
-
     computeField(time);
     render();
 
@@ -222,29 +173,10 @@
     cols = Math.ceil(width / CELL) + 2;
     rows = Math.ceil(height / CELL) + 2;
     field = new Float32Array(cols * rows);
-    if (!pointer.inside) {
-      pointer.x = smooth.x = wake.x = width * 0.7;
-      pointer.y = smooth.y = wake.y = height * 0.4;
-    }
   }
-
-  /* ── Input ───────────────────────────────────────────────── */
-  function localPoint(e) {
-    const rect = hero.getBoundingClientRect();
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-  }
-
-  hero.addEventListener('pointermove', (e) => {
-    if (e.pointerType !== 'mouse') return;
-    const p = localPoint(e);
-    pointer.x = p.x; pointer.y = p.y; pointer.inside = true;
-  });
-
-  hero.addEventListener('pointerleave', () => { pointer.inside = false; });
 
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
-    lastFrame = null;
     if (running && !reduceMotion) start();
   });
 
